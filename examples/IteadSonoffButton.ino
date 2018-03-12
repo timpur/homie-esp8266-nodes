@@ -10,7 +10,7 @@
 
 #define PIN_RELAY 12
 #define PIN_LED 13
-#define EXT_BUTTON_PIN 0
+#define EXT_BUTTON_PIN 14
 #define EXT_BUTTON_ACTIVE_STATE 1
 
 bool relayState = false;
@@ -35,12 +35,16 @@ void setup() {
   Homie_setFirmware("itead-sonoff-buton", "1.0.0");
   Homie.setLedPin(PIN_LED, LOW);
 
+  // Reg Events
   relayNode.setCallback([](const bool val) {
     setRelayState(val);
   });
-  externalButton.attachClick([]() {
+  Homie.setHomieButtonClick([]() {
     setRelayState(!relayState, true);
   });
+  externalButton.attachClick([]() {
+    setRelayState(!relayState, true);
+  });  
 
   Homie.setup();
 }
