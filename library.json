@@ -1,0 +1,42 @@
+{
+  "name": "Homie ESP8266 Nodes",
+  "version": "0.1.0",
+  "keywords": "iot, home, automation, mqtt, esp8266, async, sensor",
+  "description": "Homie Noded for Homie ESP8266 framework",
+  "homepage": "https://github.com/timpur/homie-esp8266-nodes/",
+  "license": "MIT",
+  "authors": {
+    "name": "Tim Purchas",
+    "maintainer": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timpur/homie-esp8266-nodes.git",
+    "branch": "master"
+  },
+  "frameworks": "arduino",
+  "platforms": "espressif8266",
+  "dependencies": [
+    {
+      "name": "Homie",
+      "version": "2.0.0"
+    },
+    {
+      "name": "OneButton"
+    }
+  ],
+  "export": {
+    "include": [
+      "LICENSE",
+      "keywords.txt",
+      "src/*",
+      "examples/*"
+    ]
+  },
+  "build": {
+    "libCompatMode": 2,
+    "flags":[
+      "-D HOMIE_FIRMWARE_HOMIE_BUTTON=1"
+    ]
+  }  
+}
