@@ -14,7 +14,7 @@ class SwitchNode : HomieNode
 {
 public:
   SwitchNode(const char* id);
-  void setCallback(SwitchCallback& cb);
+  void setCallback(const SwitchCallback& cb);
   void setValue(const bool value, const bool overwriteSetter = false);
 private:
   SwitchCallback cb;
@@ -24,12 +24,12 @@ SwitchNode::SwitchNode(const char* id): HomieNode(id, "switch")
 {
   advertise(VALUE).settable([this](const HomieRange& range, const String& value) {
     bool val = (value == VALUE_ON_STATE);
-    if(cb) cb(val)
+    if(cb) cb(val);
     return true;
   });
 }
 
-void SwitchNode::setCallback(SwitchCallback& _cb){
+void SwitchNode::setCallback(const SwitchCallback& _cb){
   cb = _cb;
 }
 

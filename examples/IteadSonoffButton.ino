@@ -13,10 +13,17 @@
 #define EXT_BUTTON_PIN 0
 #define EXT_BUTTON_ACTIVE_STATE 1
 
-bool relayState;
+bool relayState = false;
 
 OneButton externalButton(EXT_BUTTON_PIN, EXT_BUTTON_ACTIVE_STATE);
 SwitchNode relayNode("relay");
+
+void setRelayState(const bool val,  const bool overwriteSetter = false) {
+  relayState = val;
+  digitalWrite(PIN_RELAY, relayState);
+  relayNode.setValue(relayState, overwriteSetter);
+  Homie.getLogger() << "Switch is " << (relayState ? "on" : "off") << endl;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -41,11 +48,4 @@ void setup() {
 void loop() {
   Homie.loop();
   externalButton.tick();
-}
-
-void setRelayState(const bool val,  const bool overwriteSetter = false) {
-  relayState = val;
-  digitalWrite(PIN_RELAY, relayState);
-  relayNode.setValue(relayState, overwriteSetter);
-  Homie.getLogger() << "Switch is " << (relayState ? "on" : "off") << endl;
 }
