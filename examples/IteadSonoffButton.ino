@@ -8,10 +8,11 @@
 #include <Homie.h>
 #include <SwitchNode.hpp>
 
-#define PIN_RELAY 12
-#define PIN_LED 13
+#define RELAY_PIN 12
+#define LED_PIN 13
+#define LED_ACTIVE_STATE LOW
 #define EXT_BUTTON_PIN 14
-#define EXT_BUTTON_ACTIVE_STATE 1
+#define EXT_BUTTON_ACTIVE_STATE HIGH
 
 bool relayState = false;
 
@@ -20,7 +21,8 @@ SwitchNode relayNode("relay");
 
 void setRelayState(const bool val,  const bool overwriteSetter = false) {
   relayState = val;
-  digitalWrite(PIN_RELAY, relayState);
+  digitalWrite(RELAY_PIN, relayState);
+  digitalWrite(LED_PIN, relayState ? LED_ACTIVE_STATE: !LED_ACTIVE_STATE);
   relayNode.setValue(relayState, overwriteSetter);
   Homie.getLogger() << "Switch is " << (relayState ? "on" : "off") << endl;
 }
@@ -29,11 +31,11 @@ void setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println();
-  pinMode(PIN_RELAY, OUTPUT);
+  pinMode(RELAY_PIN, OUTPUT);
   setRelayState(LOW);
 
   Homie_setFirmware("itead-sonoff-buton", "1.0.0");
-  Homie.setLedPin(PIN_LED, LOW);
+  Homie.setLedPin(LED_PIN, LED_ACTIVE_STATE);
 
   // Reg Events
   relayNode.setCallback([](const bool val) {

@@ -5,9 +5,9 @@
 
 typedef std::function<void(const bool setValue)> SwitchCallback;
 
-const char VALUE[] = "value";
-const char VALUE_ON_STATE[] = "true";
-const char VALUE_OFF_STATE[] = "false";
+const char STATE_PROP[] = "on";
+const char STATE_ON_VALUE[] = "true";
+const char STATE_OFF_VALUE[] = "false";
 
 
 class SwitchNode : HomieNode
@@ -22,8 +22,8 @@ private:
 
 SwitchNode::SwitchNode(const char* id): HomieNode(id, "switch")
 {
-  advertise(VALUE).settable([this](const HomieRange& range, const String& value) {
-    bool val = (value == VALUE_ON_STATE);
+  advertise(STATE_PROP).settable([this](const HomieRange& range, const String& value) {
+    bool val = (value == STATE_ON_VALUE);
     if(cb) cb(val);
     return true;
   });
@@ -34,5 +34,5 @@ void SwitchNode::setCallback(const SwitchCallback& _cb){
 }
 
 void SwitchNode::setValue(const bool value,  const bool overwriteSetter){
-  setProperty(VALUE).overwriteSetter(overwriteSetter).send(value ? VALUE_ON_STATE : VALUE_OFF_STATE);
+  setProperty(STATE_PROP).overwriteSetter(overwriteSetter).send(value ? STATE_ON_VALUE : STATE_OFF_VALUE);
 }
