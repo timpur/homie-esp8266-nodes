@@ -1,11 +1,9 @@
 #pragma once
 
 #include <Homie.h>
+#include "Constants.hpp"
 
-const char VALUE[] = "value";
-const char UNIT[] = "unit";
-
-class SensorNode : HomieNode
+class SensorNode : protected HomieNode
 {
 public:
   SensorNode(const char* id);
@@ -14,16 +12,16 @@ private:
   void onReadyToOperate();
 };
 
-SensorNode::SensorNode(const char* id): HomieNode(id, "sensor")
+SensorNode::SensorNode(const char* id): HomieNode(id, TYPE_SENSOR)
 {
-  advertise(VALUE);
-  advertise(UNIT);
+  advertise(PROP_VALUE);
+  advertise(PROP_UNIT);
 }
 
 void SensorNode::onReadyToOperate(){
-  setProperty(UNIT).send("unit");
+  setProperty(PROP_UNIT).send("unit");
 }
 
 void SensorNode::setValue(const String& value){
-  setProperty(VALUE).send(value);
+  setProperty(PROP_VALUE).send(value);
 }

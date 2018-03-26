@@ -23,7 +23,7 @@ void setRelayState(const bool val,  const bool overwriteSetter = false) {
   relayState = val;
   digitalWrite(RELAY_PIN, relayState);
   digitalWrite(LED_PIN, relayState ? LED_ACTIVE_STATE: !LED_ACTIVE_STATE);
-  relayNode.setValue(relayState, overwriteSetter);
+  relayNode.setState(relayState, overwriteSetter);
   Homie.getLogger() << "Switch is " << (relayState ? "on" : "off") << endl;
 }
 
@@ -38,7 +38,7 @@ void setup() {
   Homie.setLedPin(LED_PIN, LED_ACTIVE_STATE);
 
   // Reg Events
-  relayNode.setCallback([](const bool val) {
+  relayNode.setStateCallback([](const bool val) {
     setRelayState(val);
   });
   Homie.setHomieButtonClick([]() {

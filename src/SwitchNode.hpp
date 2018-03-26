@@ -2,37 +2,35 @@
 
 #include <functional>
 #include <Homie.h>
+#include "Constants.hpp"
 
-typedef std::function<void(const bool setValue)> SwitchCallback;
-
-const char STATE_PROP[] = "on";
-const char STATE_ON_VALUE[] = "true";
-const char STATE_OFF_VALUE[] = "false";
-
-
-class SwitchNode : HomieNode
+class SwitchNode : protected HomieNode
 {
 public:
-  SwitchNode(const char* id);
-  void setCallback(const SwitchCallback& cb);
-  void setValue(const bool value, const bool overwriteSetter = false);
+  SwitchNode(const char *id, const char *type = TYPE_SWITCH);
+  void setStateCallback(const BoolCallback &callback);
+  void setState(const bool value, const bool overwriteSetter = false);
+
 private:
-  SwitchCallback cb;
+  BoolCallback stateCallback;
 };
 
-SwitchNode::SwitchNode(const char* id): HomieNode(id, "switch")
+SwitchNode::SwitchNode(const char *id, const char *type) : HomieNode(id, type)
 {
-  advertise(STATE_PROP).settable([this](const HomieRange& range, const String& value) {
-    bool val = (value == STATE_ON_VALUE);
-    if(cb) cb(val);
+  advertise(PROP_ON).settable([this](const HomieRange &range, const String &value) {
+    bool val = (value == STATE_ON);
+    if (stateCallback)
+      stateCallback(val);
     return true;
   });
 }
 
-void SwitchNode::setCallback(const SwitchCallback& _cb){
-  cb = _cb;
+void SwitchNode::setStateCallback(const BoolCallback &_callback)
+{
+  stateCallback = _callback;
 }
 
-void SwitchNode::setValue(const bool value,  const bool overwriteSetter){
-  setProperty(STATE_PROP).overwriteSetter(overwriteSetter).send(value ? STATE_ON_VALUE : STATE_OFF_VALUE);
+void SwitchNode::setState(const bool value, const bool overwriteSetter)
+{
+  setProperty(PROP_ON).overwriteSetter(overwriteSetter).send(value ? STATE_ON : STATE_OFF);
 }
