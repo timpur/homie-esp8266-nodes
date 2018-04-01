@@ -6,20 +6,22 @@
 class SensorNode : protected HomieNode
 {
 public:
-  SensorNode(const char* id);
+  SensorNode(const char* id, const char* unit);
   void setValue(const String& value);
 private:
+  const char* _unit;
   void onReadyToOperate();
 };
 
-SensorNode::SensorNode(const char* id): HomieNode(id, TYPE_SENSOR)
+SensorNode::SensorNode(const char* id, const char* unit): HomieNode(id, TYPE_SENSOR)
+,_unit(unit)
 {
   advertise(PROP_VALUE);
   advertise(PROP_UNIT);
 }
 
 void SensorNode::onReadyToOperate(){
-  setProperty(PROP_UNIT).send("unit");
+  setProperty(PROP_UNIT).send(_unit);
 }
 
 void SensorNode::setValue(const String& value){

@@ -17,6 +17,7 @@ const char PROP_BRIGHTNESS[] = "brightness";
 // Values
 const char STATE_ON[] = "true";
 const char STATE_OFF[] = "false";
+const char NULL_VALUE[] = "";
 
 // Type Def
 typedef std::function<void(const bool setValue)> BoolCallback;
