@@ -4,7 +4,7 @@
 #include <Homie.h>
 #include "Constants.hpp"
 
-class SwitchNode : protected HomieNode
+class SwitchNode : public HomieNode
 {
 public:
   SwitchNode(const char *id, const char *type = TYPE_SWITCH);

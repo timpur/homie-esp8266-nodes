@@ -3,7 +3,7 @@
 #include <Homie.h>
 #include "Constants.hpp"
 
-class SensorNode : protected HomieNode
+class SensorNode : public HomieNode
 {
 public:
   SensorNode(const char* id, const char* unit);
