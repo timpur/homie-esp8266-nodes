@@ -16,7 +16,7 @@
 
 bool relayState = false;
 
-OneButton externalButton(EXT_BUTTON_PIN, EXT_BUTTON_ACTIVE_STATE);
+OneButton externalButton(EXT_BUTTON_PIN, !EXT_BUTTON_ACTIVE_STATE);
 SwitchNode relayNode("relay");
 
 void setRelayState(const bool val,  const bool overwriteSetter = false) {
@@ -46,7 +46,7 @@ void setup() {
   });
   externalButton.attachClick([]() {
     setRelayState(!relayState, true);
-  });  
+  });
 
   Homie.setup();
 }

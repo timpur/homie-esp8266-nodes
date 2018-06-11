@@ -15,7 +15,10 @@
     "branch": "master"
   },
   "frameworks": "arduino",
-  "platforms": "espressif8266",
+  "platforms": [
+    "espressif32",
+    "espressif8266"
+  ],
   "dependencies": [
     {
       "name": "Homie",
@@ -35,8 +38,8 @@
   },
   "build": {
     "libCompatMode": 2,
-    "flags":[
+    "flags": [
       "-D HOMIE_FIRMWARE_HOMIE_BUTTON=1"
     ]
-  }  
+  }
 }
